@@ -1,5 +1,9 @@
 package src;
 
-public class Bomb {
+public class Bomb extends Entity {
+
+    public Bomb() {
+        super();
+    }
 
 }
