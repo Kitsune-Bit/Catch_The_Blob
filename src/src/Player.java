@@ -24,11 +24,11 @@ public class Player {
         blobs.add(blob);
     }
 
-    public boolean submitBlob(ArrayList<Blob> required) {
+    public boolean submitBlob(ArrayList<String> required) {
         int n = blobs.size() - 1;
         int m = required.size() - 1;
         for (int i = 0; i < required.size(); i++) {
-            if (blobs.get(n-i) != required.get(m-i)) {
+            if (blobs.get(n-i).getColour() != required.get(m-i)) {
                 return false;
             }
         }

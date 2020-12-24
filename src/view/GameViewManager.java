@@ -8,6 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import src.GameController;
 
 public class GameViewManager {
 
@@ -18,8 +19,9 @@ public class GameViewManager {
     private AnchorPane gameAnchorPane;
     private Scene gameScene;
     private Stage gameStage;
-
     private Stage menuStage;
+    private GameController gameController;
+
     private ImageView player;
     private boolean isLeftKeyPressed;
     private boolean isRightKeyPressed;
@@ -64,6 +66,7 @@ public class GameViewManager {
     public void createNewGame(Stage menuStage) {
         this.menuStage = menuStage;
         this.menuStage.hide();
+        gameController = new GameController(this);
         player = new ImageView("/images/player.png");
         player.setLayoutX(width/2);
         player.setLayoutY(height - border);
@@ -95,4 +98,10 @@ public class GameViewManager {
         };
         gameTimer.start();
     }
+
+    public void stopGame() {
+        gameStage.close();
+        gameTimer.stop();
+    }
+
 }
