@@ -35,6 +35,11 @@ public class GameController {
     }
 
     public void checkPlayerPoint() {
+//        System.out.println("Currently need:");
+//        for (String blob : pointBlobs) {
+//            System.out.print(blob);
+//        }
+//        System.out.println("");
         if (player.submitBlob(pointBlobs)) {
             // Increase points
         }
