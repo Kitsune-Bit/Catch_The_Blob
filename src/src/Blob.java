@@ -2,19 +2,19 @@ package src;
 
 public class Blob extends Entity {
 
-    private String colour;
+    private int code;
 
-    public Blob(String colour) {
+    public Blob(int code) {
         super();
-        this.colour = colour;
+        this.code = code;
     }
 
-    public String getColour() {
-        return colour;
+    public int getCode() {
+        return code;
     }
 
-    public void setColour(String colour) {
-        this.colour = colour;
+    public void setColour(int code) {
+        this.code = code;
     }
 
 }

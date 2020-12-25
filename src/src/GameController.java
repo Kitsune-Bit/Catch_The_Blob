@@ -1,6 +1,7 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import view.GameViewManager;
 
@@ -8,7 +9,9 @@ public class GameController {
 
     private GameViewManager gameView;
     private Player player;
-    private ArrayList<String> pointBlobs;
+    private ArrayList<Blob> pointBlobs;
+    private int points;
+    private int numberToUse;
 
     public GameController(GameViewManager gameView) {
         this.gameView = gameView;
@@ -17,14 +20,17 @@ public class GameController {
     }
 
     public void initializePlayer() {
-        player = new Player(3);
+        this.player = new Player(3);
+        this.points = 0;
     }
 
     private void initializePointBlobs() {
-        pointBlobs = new ArrayList<String>();
-//        Logic for different blobs not created
-        pointBlobs.add("Blue");
-        pointBlobs.add("Red");
+        pointBlobs = new ArrayList<Blob>();
+        numberToUse = 3; // Number of blobs needed
+        Random rand = new Random();
+        for (int i = 0; i < numberToUse; i++) {
+            pointBlobs.add(new Blob(rand.nextInt(5) + 1));
+        }
     }
 
     public void removePlayerLife() {
@@ -34,15 +40,31 @@ public class GameController {
         }
     }
 
-    public void checkPlayerPoint() {
-//        System.out.println("Currently need:");
-//        for (String blob : pointBlobs) {
-//            System.out.print(blob);
-//        }
-//        System.out.println("");
+    public int checkPlayerPoint() {
         if (player.submitBlob(pointBlobs)) {
             // Increase points
+            initializePointBlobs();
+            points++;
+        } else if (player.getBlobs().size() > numberToUse) {
+            player.resetBlobs();
         }
+        return points;
     }
 
+    public void debugBlob() {
+        System.out.print("Currently have: ");
+        for (Blob blob : player.getBlobs()) {
+            System.out.print(blob.getCode());
+        }
+        System.out.println("");
+        System.out.print("Currently need: ");
+        for (Blob blob : pointBlobs) {
+            System.out.print(blob.getCode());
+        }
+        System.out.println("\n=====================");
+    }
+
+    public void insertBlob(int code) {
+        player.addBlob(new Blob(code));
+    }
 }

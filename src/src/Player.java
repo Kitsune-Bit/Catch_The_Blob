@@ -20,22 +20,30 @@ public class Player {
         this.lifeCount = lifeCount;
     }
 
+    public ArrayList<Blob> getBlobs() {
+        return blobs;
+    }
+
     public void addBlob(Blob blob) {
         blobs.add(blob);
     }
 
-    public boolean submitBlob(ArrayList<String> required) {
-        int n = blobs.size() - 1;
-        int m = required.size() - 1;
+    public boolean submitBlob(ArrayList<Blob> required) {
+        if (blobs.size() < required.size()) {
+            return false;
+        }
         for (int i = 0; i < required.size(); i++) {
-            if (blobs.get(n-i).getColour() != required.get(m-i)) {
+            if (blobs.get(i).getCode() != required.get(i).getCode()) {
                 return false;
             }
         }
         for (int i = 0; i < required.size(); i++) {
-            blobs.remove(n-i);
+            blobs.remove(0);
         }
         return true;
     }
 
+    public void resetBlobs() {
+        this.blobs = new ArrayList<Blob>();
+    }
 }
