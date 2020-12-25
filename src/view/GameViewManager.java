@@ -1,8 +1,11 @@
 package view;
 
 import javafx.animation.AnimationTimer;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,7 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import src.Entity;
 import src.GameController;
 
 public class GameViewManager {
@@ -73,11 +78,12 @@ public class GameViewManager {
         this.menuStage.hide();
         gameController = new GameController(this);
         player = new ImageView("/images/player.png");
-        player.setLayoutX(width/2);
-        player.setLayoutY(height - border);
-        gameAnchorPane.getChildren().add(player);
+//        player.setLayoutX(width/2);
+//        player.setLayoutY(height - border);
 //        Testing
-        testGameButton();
+//        testGameButton();
+        trackPosition(gameController.getPlayer(), player);
+        gameAnchorPane.getChildren().add(player);
         pointLabel = new Label("Points: 0");
         pointLabel.setLayoutX(600);
         gameAnchorPane.getChildren().add(pointLabel);
@@ -88,14 +94,14 @@ public class GameViewManager {
 
     private void movePlayer() {
         if (isLeftKeyPressed && !isRightKeyPressed) {
-            if(player.getLayoutX() > border) {
-                player.setLayoutX(player.getLayoutX() - 5);
+            if(gameController.getPlayer().getX() > border) {
+                gameController.getPlayer().x().set(gameController.getPlayer().getX() - 5);
             }
         }
         
         if (isRightKeyPressed && !isLeftKeyPressed) {
-            if(player.getLayoutX() < width - border) {
-                player.setLayoutX(player.getLayoutX() + 5);
+            if(gameController.getPlayer().getX() < width - border) {
+                gameController.getPlayer().x().set(gameController.getPlayer().getX() + 5);
             }
         }
     }
@@ -116,6 +122,26 @@ public class GameViewManager {
         menuStage.show();
     }
 
+    private void trackPosition(Entity entity, Node node) {
+        node.setLayoutX(entity.getX());
+        node.setLayoutY(entity.getY());
+        entity.x().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                node.setLayoutX(newValue.intValue());
+            }
+        });
+        entity.y().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                node.setLayoutY(newValue.intValue());
+            }
+        });
+    }
+
+    
     private void testGameButton() {
         Button lifeButton = new Button("- 1 Life");
         lifeButton.setLayoutX(100);

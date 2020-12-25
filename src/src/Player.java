@@ -2,12 +2,13 @@ package src;
 
 import java.util.ArrayList;
 
-public class Player {
+public class Player extends Entity {
 
     private int lifeCount;
     private ArrayList<Blob> blobs;
 
-    public Player(int lifeCount) {
+    public Player(int x, int y, int lifeCount) {
+        super(x, y);
         this.lifeCount = lifeCount;
         this.blobs = new ArrayList<Blob>();
     }

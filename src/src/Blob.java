@@ -4,8 +4,8 @@ public class Blob extends Entity {
 
     private int code;
 
-    public Blob(int code) {
-        super();
+    public Blob(int x, int y, int code) {
+        super(x, y);
         this.code = code;
     }
 

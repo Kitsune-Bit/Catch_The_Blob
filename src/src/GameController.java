@@ -20,16 +20,19 @@ public class GameController {
     }
 
     public void initializePlayer() {
-        this.player = new Player(3);
+        this.player = new Player(200,200,3);
         this.points = 0;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
     private void initializePointBlobs() {
         pointBlobs = new ArrayList<Blob>();
         numberToUse = 3; // Number of blobs needed
         Random rand = new Random();
         for (int i = 0; i < numberToUse; i++) {
-            pointBlobs.add(new Blob(rand.nextInt(5) + 1));
+            pointBlobs.add(new Blob(0,0,rand.nextInt(5) + 1));
         }
     }
 
@@ -65,6 +68,6 @@ public class GameController {
     }
 
     public void insertBlob(int code) {
-        player.addBlob(new Blob(code));
+        player.addBlob(new Blob(0,0,code));
     }
 }
