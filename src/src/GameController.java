@@ -40,6 +40,8 @@ public class GameController {
 
     public void removePlayerLife() {
         player.setLifeCount(player.getLifeCount() - 1);
+        player.resetBlobs();
+        gameView.refreshPlayerBlobs();
         if (player.getLifeCount() <= 0 ) {
             gameView.stopGame();
         }

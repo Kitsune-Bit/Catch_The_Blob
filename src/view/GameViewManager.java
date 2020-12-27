@@ -17,6 +17,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import src.Blob;
+import src.Bomb;
 import src.Entity;
 import src.GameController;
 
@@ -40,7 +41,7 @@ public class GameViewManager {
     private boolean isRightKeyPressed;
     private AnimationTimer gameTimer;
     private ArrayList<Blob> blobs;
-
+    private ArrayList<Bomb> bombs;
     
     private Label pointLabel;
 
@@ -48,6 +49,7 @@ public class GameViewManager {
         initializeStage();
         createKeyListeners();
         blobs = new ArrayList<Blob>();
+        bombs = new ArrayList<Bomb>();
         blobImage = new ImageView[3];
         playerBlobImage = new ImageView[3];
     }
@@ -121,7 +123,11 @@ public class GameViewManager {
                 if (rand.nextInt(frequency) == 1) {
                     generateBlob();
                 }
+                if (rand.nextInt(2*frequency) == 1) {
+                    generateBomb();
+                }
                 moveBlob();
+                moveBomb();
             }
         };
         gameTimer.start();
@@ -162,6 +168,7 @@ public class GameViewManager {
         });
     }
 
+// Refactor blob and bomb
     private void generateBlob() {
         Random rand = new Random();
         // Number of different blobs
@@ -191,6 +198,33 @@ public class GameViewManager {
                 gameAnchorPane.getChildren().remove(b.getImage());
                 gameController.insertBlob(b);
                 pointLabel.setText("Points: " + gameController.checkPlayerPoint());
+            }
+        }
+    }
+
+    private void generateBomb() {
+        Random rand = new Random();
+        Bomb tmp = new Bomb(rand.nextInt(width - 2 * border) + 2 * border, -1*rand.nextInt(height));
+        ImageView tmpImage = new ImageView("/images/brick.png");
+        trackPosition(tmp, tmpImage);
+        tmp.setImage(tmpImage);
+        gameAnchorPane.getChildren().add(tmpImage);
+        bombs.add(tmp);
+    }
+
+    private void moveBomb() {
+        for (Iterator<Bomb> it = bombs.iterator(); it.hasNext();) {
+            Bomb b = it.next();
+            if (b.getY() < height + border) {
+                b.y().set(b.getY() + 5);
+            } else {
+                it.remove();
+                gameAnchorPane.getChildren().remove(b.getImage());
+            }
+            if (b.getImage().getBoundsInParent().intersects(player.getBoundsInParent())) {
+                it.remove();
+                gameAnchorPane.getChildren().remove(b.getImage());
+                gameController.removePlayerLife();
             }
         }
     }
