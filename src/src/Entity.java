@@ -2,13 +2,15 @@ package src;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.ImageView;
 
 public class Entity {
 
     private IntegerProperty x;
     private IntegerProperty y;
-    private float speed;
+    private int speed;
     private float size;
+    private ImageView image;
 
     public Entity(int x, int y) {
         this.x = new SimpleIntegerProperty(x);
@@ -17,11 +19,11 @@ public class Entity {
         this.size = 1;
     }
 
-    public float getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(int speed) {
         this.speed = speed;
     }
 
@@ -51,6 +53,14 @@ public class Entity {
 
     public void setX(int value) {
         x().set(value);
+    }
+
+    public ImageView getImage() {
+        return image;
+    }
+
+    public void setImage(ImageView image) {
+        this.image = image;
     }
 
 }
